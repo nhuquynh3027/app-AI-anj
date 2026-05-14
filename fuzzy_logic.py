@@ -150,7 +150,7 @@ class FoodFuzzyLogic:
         rule67 = ctrl.Rule(self.hunger['starving'] & self.health['diet'], [self.meal_type['healthy meal'], self.cuisine['temple meal'], self.calories['low'], self.place['restaurant'],self.price_range['moderate']])
         rule68 = ctrl.Rule(self.time['long'] & self.budget['cheap'], [self.meal_type['snack'], self.cuisine['drinks'], self.place['street'],  self.calories['low'], self.price_range['cheap']]) 
 
-        self.sim_ctrl = ctrl.ControlSystem([
+        self.system = ctrl.ControlSystem([
             rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10,
             rule11, rule12, rule13, rule14, rule15, rule16, rule17, rule18, rule19, rule20,
             rule21, rule22, rule23, rule24, rule25, rule26, rule27, rule28, rule29, rule30,
@@ -159,7 +159,7 @@ class FoodFuzzyLogic:
             rule51, rule52, rule53, rule54, rule55, rule56, rule57, rule58, rule59, rule60,
             rule61, rule62, rule63, rule64, rule65, rule66, rule67, rule68
         ])
-        self.sim = ctrl.ControlSystemSimulation(self.sim_ctrl)
+        self.sim_ctrl = ctrl.ControlSystemSimulation(self.system)
 
     def recommend(self, hunger_ran, budget_ran, time_ran, weather_ran, health_ran):
         self.sim.input['hunger'] = hunger_ran
@@ -169,3 +169,4 @@ class FoodFuzzyLogic:
         self.sim.input['health'] = health_ran
         self.sim.compute()
         return self.sim.output
+
