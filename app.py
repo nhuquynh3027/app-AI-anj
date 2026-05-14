@@ -144,7 +144,7 @@ if not st.session_state.started:
     """, unsafe_allow_html=True)
 
     st.markdown("<div class='hero-title'>Hôm nay ăn gì?</div>", unsafe_allow_html=True)
-    st.markdown("<div class='hero-sub'>Để chúng tôi gợi ý món ăn phù hợp với bạn ngay lúc này.</div>", unsafe_allow_html=True)
+    st.markdown("<div class='hero-sub'>Hãy để chúng tôi gợi ý món ăn phù hợp với bạn ngay lúc này.</div>", unsafe_allow_html=True)
 
     img_urls = [
         "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400",
@@ -178,6 +178,10 @@ else:
             background-color: #faf8f5 !important;
             font-family: 'Be Vietnam Pro', sans-serif;
         }
+       /* Ẩn nút collapse sidebar bị lỗi hiển thị icon text */
+        [data-testid="collapsedControl"] { display: none !important; }
+        button[kind="header"] { display: none !important; }
+        [data-testid="stSidebarCollapseButton"] { display: none !important; }
         [data-testid="stSidebar"] {
             background-color: #7a0000 !important;
         }
