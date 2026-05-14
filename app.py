@@ -267,28 +267,23 @@ else:
                 selected_name = st.selectbox("Bạn muốn xem đường đến quán nào?", [s['name'] for s in filtered_shops])
                 target_shop = next(s for s in filtered_shops if s['name'] == selected_name)
                 
-                # ✨ HIỂN THỊ HÌNH ẢNH VÀ THÔNG TIN QUÁN ĂN
-                st.markdown(f"""
-                <div class="restaurant-card">
-                    <h3>🍽️ {target_shop['name']}</h3>
-                </div>
-                """, unsafe_allow_html=True)
-                
+               # ✨ HIỂN THỊ HÌNH ẢNH QUÁN ĂN
+                st.markdown(f"<h3 style='color: #800000;'>🍽️ {target_shop['name']}</h3>", unsafe_allow_html=True)
                 col_img, col_info = st.columns([2, 1])
                 
                 with col_img:
                     if "image_url" in target_shop:
-                        st.image(target_shop['image_url'], use_container_width=True)
+                        st.image(target_shop['image_url'], use_container_width=True, caption=target_shop['name'])
                     else:
-                        st.info("📷 Không có hình ảnh quán")
+                        st.image("https://via.placeholder.com/400x300?text=" + target_shop['name'].replace(" ", "+"), use_container_width=True)
                 
                 with col_info:
                     st.markdown(f"""
-                    <div style="padding: 10px; background-color: #f0f0f0; border-radius: 10px;">
-                        <p><b>🛒 Loại:</b> {target_shop['cuisine'].upper()}</p>
-                        <p><b>💰 Giá:</b> {target_shop['price']}</p>
-                        <p><b>🍽️ Loại bữa:</b> {target_shop['meal_type']}</p>
-                        <p><b>📍 Địa điểm:</b> {target_shop['place']}</p>
+                    <div style='background: #f0f0f0; padding: 15px; border-radius: 10px; border-left: 4px solid #800000;'>
+                        <p>🛒 <b>Loại:</b> {target_shop['cuisine'].upper()}</p>
+                        <p>💰 <b>Giá:</b> {target_shop['price']}</p>
+                        <p>🍜 <b>Bữa:</b> {target_shop['meal_type']}</p>
+                        <p>📍 <b>Địa điểm:</b> {target_shop['place']}</p>
                     </div>
                     """, unsafe_allow_html=True)
                 
