@@ -1,0 +1,11 @@
+streamlit
+scikit-fuzzy
+numpy
+spicy
+networkx
+requests
+folium
+streamlit-folium
+streamlit_js_eval
+googlemaps
+pandas
