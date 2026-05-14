@@ -260,7 +260,7 @@ else:
         """, unsafe_allow_html=True)
 
         st.markdown("---")
-        st.markdown("<h3 style='font-size:1rem;'>Lịch sử tìm kiếm</h3>", unsafe_allow_html=True)
+        st.markdown("<h3 style='font-size:1rem;'>Lịch sử tìm kiếm của bạn</h3>", unsafe_allow_html=True)
 
         if st.session_state.search_history:
             for item in reversed(st.session_state.search_history):
@@ -274,13 +274,13 @@ else:
             st.write("Chưa có lịch sử.")
 
         st.markdown("<br>", unsafe_allow_html=True)
-        if st.button("← Trang chủ", use_container_width=True):
+        if st.button("← Quay lại trang chủ", use_container_width=True):
             st.session_state.started = False
             st.session_state.results = None
             st.rerun()
 
     # PHẦN NHẬP LIỆU
-    st.markdown("<h2 style='color:#7a0000; margin-bottom:1.5rem;'>Cho chúng tôi biết thêm về bạn</h2>", unsafe_allow_html=True)
+    st.markdown("<h2 style='color:#7a0000; margin-bottom:1.5rem;'>Cho chúng tôi biết thêm về yêu cầu của bạn nhé</h2>", unsafe_allow_html=True)
 
     with st.container():
         col_a, col_b = st.columns(2)
@@ -321,8 +321,8 @@ else:
             filtered_shops = [s for s in api.restaurants if s['cuisine'].lower() == res['cuisine_label'].lower()]
 
             if filtered_shops:
-                st.success(f"Tìm thấy {len(filtered_shops)} quán {res['cuisine_label']} gần đây.")
-                selected_name = st.selectbox("Chọn quán muốn đến:", [s['name'] for s in filtered_shops])
+                st.success(f"Đã tìm thấy {len(filtered_shops)} quán {res['cuisine_label']} gần đây.")
+                selected_name = st.selectbox("Chọn quán mà bạn muốn đến:", [s['name'] for s in filtered_shops])
                 target_shop = next(s for s in filtered_shops if s['name'] == selected_name)
 
                 embed_url = api.get_google_maps_embed_url(curr_lat, curr_lng, target_shop['latitude'], target_shop['longitude'])
@@ -334,7 +334,7 @@ else:
                 delivery_time = api.get_delivery_estimation(curr_lat, curr_lng, target_shop['latitude'], target_shop['longitude'])
                 st.info(f"Thời gian di chuyển ước tính: **{delivery_time} phút**")
 
-                if st.button(f"Xác nhận ăn tại {target_shop['name']}", use_container_width=True):
+                if st.button(f"Xác nhận ăn/uống tại {target_shop['name']}", use_container_width=True):
                     api.learn_user_taste(target_shop['name'])
                     current_search = {
                         "cuisine": res['cuisine_label'],
@@ -344,7 +344,7 @@ else:
                     st.session_state.search_history.append(current_search)
                     if len(st.session_state.search_history) > 5:
                         st.session_state.search_history.pop(0)
-                    st.session_state.confirm_msg = f"Đã lưu lại! Chúc bạn ngon miệng tại {target_shop['name']}."
+                    st.session_state.confirm_msg = f"Đã lưu lại rồi! Chúc bạn ngon miệng tại {target_shop['name']} nha."
                     st.rerun()
 
                 if 'confirm_msg' in st.session_state:
@@ -352,4 +352,4 @@ else:
             else:
                 st.warning("Không tìm thấy quán nào phù hợp trong danh sách. Thử lại với tiêu chí khác nhé!")
         else:
-            st.info("Hãy cho phép trình duyệt truy cập vị trí để xem quán gần bạn.")
+            st.info("Hãy cho phép trình duyệt truy cập vị trí để xem quán nào gần bạn nha.")
