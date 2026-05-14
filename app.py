@@ -164,35 +164,6 @@ else:
             border-radius: 10px; margin-bottom: 8px; border: 1px solid rgba(255,255,255,0.3);
         }
         .stButton>button { background-color: #000000; color: #FFD700; border-radius: 12px; }
-        
-        /* CSS cho thẻ thông tin quán ăn */
-        .restaurant-card {
-            background-color: #f8f9fa;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
-            border-left: 5px solid #800000;
-        }
-        .restaurant-card h3 {
-            color: #800000;
-            margin-top: 0;
-            font-size: 1.5rem;
-        }
-        .restaurant-card p {
-            color: #333;
-            margin: 8px 0;
-            font-size: 1rem;
-        }
-        .restaurant-card b {
-            color: #800000;
-        }
-        .restaurant-image {
-            border-radius: 12px;
-            object-fit: cover;
-            width: 100%;
-            height: 300px;
-        }
         </style>
     """, unsafe_allow_html=True)
 
@@ -245,6 +216,7 @@ else:
     if st.button(" ĂN GÌ ĐÂY ?", use_container_width=True):
         show_results_dialog(hunger_ran, budget_ran, time_ran, health_goal, w_score)
 
+
     # PHẦN BẢN ĐỒ & CHI TIẾT
     if st.session_state.results:
         res = st.session_state.results
@@ -266,31 +238,16 @@ else:
                 st.success(f"📌 Có {len(filtered_shops)} quán {res['cuisine_label']} phù hợp quanh đây!")
                 selected_name = st.selectbox("Bạn muốn xem đường đến quán nào?", [s['name'] for s in filtered_shops])
                 target_shop = next(s for s in filtered_shops if s['name'] == selected_name)
-                
-               # ✨ HIỂN THỊ HÌNH ẢNH QUÁN ĂN
-                st.markdown(f"<h3 style='color: #800000;'>🍽️ {target_shop['name']}</h3>", unsafe_allow_html=True)
-                col_img, col_info = st.columns([2, 1])
-                
-                with col_img:
-                    if "image_url" in target_shop:
-                        st.image(target_shop['image_url'], use_container_width=True, caption=target_shop['name'])
-                    else:
-                        st.image("https://via.placeholder.com/400x300?text=" + target_shop['name'].replace(" ", "+"), use_container_width=True)
-                
-                with col_info:
-                    st.markdown(f"""
-                    <div style='background: #f0f0f0; padding: 15px; border-radius: 10px; border-left: 4px solid #800000;'>
-                        <p>🛒 <b>Loại:</b> {target_shop['cuisine'].upper()}</p>
-                        <p>💰 <b>Giá:</b> {target_shop['price']}</p>
-                        <p>🍜 <b>Bữa:</b> {target_shop['meal_type']}</p>
-                        <p>📍 <b>Địa điểm:</b> {target_shop['place']}</p>
-                    </div>
-                    """, unsafe_allow_html=True)
-                
+                st.markdown("<h3 style='color: #800000;'>🍽️ Thông tin quán ăn</h3>", unsafe_allow_html=True)
+                if "image_url" in target_shop and target_shop["image_url"]:
+                    try:
+                        st.image(target_shop["image_url"], use_container_width=True, caption=target_shop['name'])
+                    except:
+                        st.info("📷 Hình ảnh không thể tải được")
+                else:
+                    st.info("📷 Không có hình ảnh cho quán này")
+
                 st.divider()
-                
-                # ✨ HIỂN THỊ BẢN ĐỒ
-                st.markdown("<h3 style='color: #800000;'>📍 Lộ trình đến quán</h3>", unsafe_allow_html=True)
                 embed_url = api.get_google_maps_embed_url(curr_lat, curr_lng, target_shop['latitude'], target_shop['longitude'])
                 components.html(f'<iframe width="100%" height="450" src="{embed_url}" frameborder="0" style="border-radius:15px; box-shadow: 0px 4px 12px rgba(0,0,0,0.1);"></iframe>', height=460)
 
