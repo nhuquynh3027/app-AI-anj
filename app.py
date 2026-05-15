@@ -6,7 +6,7 @@ import streamlit.components.v1 as components
 from streamlit_js_eval import get_geolocation
 import skfuzzy.control as ctrl
 
-# --- 1. KHỞI TẠO HỆ THỐNG ---
+# --- 1. Khởi tạo hệ thống ---
 st.set_page_config(page_title="Ăn gì hôm nay?", page_icon="🍜", layout="wide")
 
 @st.cache_resource
@@ -19,7 +19,7 @@ location = get_geolocation()
 if not hasattr(engine.sim_ctrl, 'input'):
     engine.sim_ctrl = ctrl.ControlSystemSimulation(engine.sim_ctrl)
 
-# --- 2. QUẢN LÝ TRẠNG THÁI ---
+# --- 2. Quản lý trạng thái ---
 if 'started' not in st.session_state:
     st.session_state.started = False
 if 'results' not in st.session_state:
@@ -29,7 +29,7 @@ if 'search_history' not in st.session_state:
 if 'final_restaurants' not in st.session_state:
     st.session_state.final_restaurants = []
 
-# --- 3. DIALOG KẾT QUẢ ---
+# --- 3. Dialog kết quả ---
 @st.dialog("Gợi ý dành cho bạn")
 def show_results_dialog(h_val, b_val, t_val, h_goal, w_score):
     with st.spinner("Đang phân tích..."):
@@ -98,10 +98,10 @@ def show_results_dialog(h_val, b_val, t_val, h_goal, w_score):
             st.rerun()
 
 
-# --- 4. GIAO DIỆN & LOGIC ---
+# --- 4. Giao diện & Logic ---
 
 if not st.session_state.started:
-    # MÀN HÌNH CHÀO
+    #Màn hình chào
     st.markdown("""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Be+Vietnam+Pro:wght@400;500&display=swap');
@@ -169,7 +169,7 @@ if not st.session_state.started:
             st.rerun()
 
 else:
-    # MÀN HÌNH CHÍNH
+    #Màn hình chính
     st.markdown("""
         <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Be+Vietnam+Pro:wght@400;500;600&display=swap');
@@ -283,7 +283,7 @@ else:
             st.session_state.results = None
             st.rerun()
 
-    # PHẦN NHẬP LIỆU
+    #Input
     st.markdown("<h2 style='color:#7a0000; margin-bottom:1.5rem;'>Cho chúng tôi biết thêm về yêu cầu của bạn nhé</h2>", unsafe_allow_html=True)
 
     with st.container():
@@ -300,7 +300,7 @@ else:
     if st.button("Gợi ý cho tôi", use_container_width=True):
         show_results_dialog(hunger_ran, budget_ran, time_ran, health_goal, w_score)
 
-    # BẢN ĐỒ & CHI TIẾT
+    #Map
     if st.session_state.results:
         res = st.session_state.results
         st.divider()
@@ -338,7 +338,7 @@ else:
                 delivery_time = api.get_delivery_estimation(curr_lat, curr_lng, target_shop['latitude'], target_shop['longitude'])
                 st.info(f"Thời gian di chuyển ước tính: **{delivery_time} phút**")
 
-                if st.button(f"Xác nhận ăn/uống tại {target_shop['name']}", use_container_width=True):
+                if st.button(f"Xác nhận dùng bữa tại {target_shop['name']}", use_container_width=True):
                     api.learn_user_taste(target_shop['name'])
                     current_search = {
                         "cuisine": res['cuisine_label'],
